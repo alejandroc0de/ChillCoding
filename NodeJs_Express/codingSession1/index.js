@@ -5,9 +5,10 @@ const app = express()
 
 
 
-app.get('/path', (req,res) => {
+app.get('/path', async (req,res) => {
     const urlGiven = req.query.id
     const timeSent = req.query.timeSent
+
     const timeNow = Date.now()
     const timeNow2 = new Date(timeNow)
     console.log("Request made at " + timeNow2)
@@ -16,22 +17,38 @@ app.get('/path', (req,res) => {
 
     if(timeNow-Number(timeSent) < 30000){
         console.log("This is probably the Imessage server")
+        const info = await getInfo(urlGiven)
+        res.send(`
+            <html>
+                <head>
+                    <meta property="og:title" content="${info.title}">
+                    <meta property="og:description" content="${info.desc}">
+                    <meta property="og:image" content="${info.img}">
+                    <meta property="og:url" content="${info.url}">
+                </head>
+            </html>
+        `)
     }else{
         console.log("A human probably hit the server")
+        res.redirect(`https://open.spotify.com/track/${urlGiven}`)
     }
-    getInfo()
-
-    res.redirect(`https://open.spotify.com/track/${urlGiven}`)
+    
 })
 
-
-async function getInfo(){
-    const response = await axios.get('https://open.spotify.com/track/4uLU6hMCjMI75M1A2tKUQC')
-    $('meta[property="og:title"]').attr('content')
-    console.log(response)
+async function getInfo(urlGiven){
+    const response = await axios.get(`https://open.spotify.com/track/${urlGiven}`)
+    const $ = cheerio.load(response.data) 
+    const title = $('meta[property="og:title"]').attr('content')
+    const desc = $('meta[property="og:description"]').attr('content')
+    const img = $('meta[property="og:image"]').attr('content')
+    const url = $('meta[property="og:url"]').attr('content')
+    return {
+        title,
+        desc,
+        img,
+        url
+    }
 }
-
-
 
 
 app.listen(3000, ()=>{
