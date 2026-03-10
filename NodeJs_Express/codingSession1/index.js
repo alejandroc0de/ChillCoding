@@ -30,13 +30,13 @@ app.get('/path', async (req,res) => {
         `)
     }else{
         console.log("A human probably hit the server")
-        res.redirect(`https://open.spotify.com/track/${urlGiven}`)
+        res.redirect(`https://music.apple.com/us/song/i-knew-it-i-know-you/1773474473`)
     }
     
 })
 
 async function getInfo(urlGiven){
-    const response = await axios.get(`https://open.spotify.com/track/${urlGiven}`)
+    const response = await axios.get(`https://music.apple.com/us/song/i-knew-it-i-know-you/1773474473`)
     const $ = cheerio.load(response.data) 
     const title = $('meta[property="og:title"]').attr('content')
     const desc = $('meta[property="og:description"]').attr('content')
@@ -54,3 +54,6 @@ async function getInfo(urlGiven){
 app.listen(3000, ()=>{
     console.log("Server runningggg ")
 })
+
+
+// https://music.apple.com/us/song/i-knew-it-i-know-you/1773474473
