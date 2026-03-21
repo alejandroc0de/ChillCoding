@@ -8,6 +8,7 @@ function App() {
   const[proceses, setProcesses] = useState([]) // List to save the processes
   const[quantum , setQuantum] = useState(0)
   const[completed, setCompleted] = useState([])
+  const[gant, setGant] = useState([])
 
   function handleName(event){setName(event.target.value)}
 
@@ -20,10 +21,10 @@ function App() {
     const process = {
     Name : name,
     Ram_used : 30,
-    Time_required: ms,  // Time needed to complete task 
-    Time_left:ms,
+    Time_required: Number(ms),  // Time needed to complete task 
+    Time_left:Number(ms),
     Completed: false,
-    Arrival_time : arrivalTime,
+    Arrival_time : Number(arrivalTime),
     Time_taken: 0, // En completar proceso
     Wait_time: 0 // Tiempo en espera idle 
     }
@@ -39,29 +40,46 @@ function App() {
   }
 
   function handleSimulation(){
+    let arrayGraphic = []
     if(quantum <= 0 ){ // Si no ingresa quantum time 
       return
     }
     let currentTime = 0 // Trackea el tiempo que ha pasado 
     let queueCompleted = [] // La lista de los procesos completos
-    const quantumEntered = quantum
+    const quantumEntered = Number(quantum)
     const queue = [...proceses] // Copiamos la lista a el queue para trabajar 
+
+
     while (queue.length > 0) {   // Mientras hayan en el queue
       let current = queue.shift()
       if(current.Time_left > quantum ){   // Si el tiempo es mayor al quantum hay otro ciclo aun, despues de este para el proceso 
+        arrayGraphic.push({
+          name : current.Name,
+          start : currentTime,
+          end : currentTime + quantum
+        })
+
         current.Time_left = Number(current.Time_left) - Number(quantumEntered)
-        currentTime = Number(currentTime) + Number(quantum)
+        currentTime = Number(currentTime) + quantumEntered
+
         queue.push(current) // Vuelve a la queue 
       }else{
+        arrayGraphic.push({
+          name : current.Name,
+          start : currentTime,
+          end : currentTime + current.Time_left
+        })
         currentTime = Number(currentTime) + Number(current.Time_left)// In case a remaining of 2 when quantum is 3 or more 
         current.Completed = true
-        current.Time_taken = Number(currentTime) - Number(current.ArrivalTime) // Tiempo que elapso desde el inicio hasta que se completo, - arrival por si llego luego 
+        current.Time_taken = Number(currentTime) - Number(current.Arrival_time) // Tiempo que elapso desde el inicio hasta que se completo, - arrival por si llego luego 
         current.Wait_time = Number(current.Time_taken) - Number(current.Time_required) // Tiempo que estuvo idle
         queueCompleted.push(current)
       }
     }
+    setGant(arrayGraphic)
     setCompleted(queueCompleted)
     setQuantum(0)
+    console.log(gant)
   }
 
 
