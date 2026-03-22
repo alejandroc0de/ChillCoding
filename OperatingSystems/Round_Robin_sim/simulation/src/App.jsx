@@ -6,7 +6,7 @@ function App() {
   const[name, setName] = useState("")
   const[ms, setMs] = useState(0)
   const[arrivalTime, setArrivalTime] = useState(0)
-  const[proceses, setProcesses] = useState([]) // List to save the processes
+  const[processes, setProcesses] = useState([]) // List to save the processes
   const[quantum , setQuantum] = useState(0)
   const[completed, setCompleted] = useState([])
   const[gant, setGant] = useState([])
@@ -33,7 +33,7 @@ function App() {
     TimeStarted : 0,
     Response_time : 0
     }
-    setProcesses([...proceses, process])
+    setProcesses([...processes, process])
     setName("")
     setMs(0)
     // Here i save the process object to the array once submited
@@ -54,7 +54,7 @@ function App() {
     let currentTime = 0 // Trackea el tiempo que ha pasado 
     let queueCompleted = [] // La lista de los procesos completos
     const quantumEntered = Number(quantum)
-    const queue = [...proceses] // Copiamos la lista a el queue para trabajar 
+    const queue = [...processes] // Copiamos la lista a el queue para trabajar 
 
 
     while (queue.length > 0) {   // Mientras hayan en el queue
@@ -65,7 +65,8 @@ function App() {
           start : currentTime,
           end : Number(currentTime) + Number(quantum)
         })
-        if(current.Started == false){
+        // Logica para calcular Response Time 
+        if(current.Started === false){
           current.Started = true
           current.TimeStarted = currentTime
           current.Response_time = current.TimeStarted - current.Arrival_time
@@ -75,37 +76,39 @@ function App() {
 
         queue.push(current) // Vuelve a la queue 
       }else{
+        // Info para el grafico, donde empieza y termina el proceso en ms 
         arrayGraphic.push({
           name : current.Name,
           start : currentTime,
           end : Number(currentTime) + Number(current.Time_left)
         })
-        if(current.Started == false){
+        if(current.Started === false){
         current.Started = true
         current.TimeStarted = currentTime
         current.Response_time = current.TimeStarted - current.Arrival_time
         }
-        currentTime = Number(currentTime) + Number(current.Time_left)// In case a remaining of 2 when quantum is 3 or more 
+        // In case a remaining of 2 when quantum is 3 or more 
+        currentTime = Number(currentTime) + Number(current.Time_left)
         current.Completed = true
         current.Time_taken = Number(currentTime) - Number(current.Arrival_time) // Tiempo que elapso desde el inicio hasta que se completo, - arrival por si llego luego 
         current.Wait_time = Number(current.Time_taken) - Number(current.Time_required) // Tiempo que estuvo idle
         queueCompleted.push(current)
       }
-      
     }
+    // Uso de la cpu, tomando el array para el grafico
     const cpuUsage = (arrayGraphic.reduce((acumulado,bloque) => {
       return acumulado + (bloque.end-bloque.start) // Toma cada bloque del gant y suma los tiempos de uso
     },0)) // Empieza en 0 
     setPorcentajeUsage((cpuUsage / currentTime )* 100)
 
-
+    // Guardamos en gant el array que mapearemos para hacer el grafico 
     setGant(arrayGraphic)
     setCompleted(queueCompleted)
-    setQuantum(0)
-
+    setQuantum(0) // Evita doble toque al submit
   }
   const totalTime = gant.length > 0 ? gant[gant.length-1].end : 0 // SI hay gant data take it, otherwise 0 
   const colors = ["bg-amber-500", "bg-blue-500", "bg-green-500", "bg-red-500", "bg-purple-500"]
+
 
   return (
     <>
@@ -120,7 +123,7 @@ function App() {
       <button className="bg-green-300 p-4 rounded-2xl shadow-2xl font-bold" onClick={handleSubmit} >Submit </button>
 
       <ul className="" >
-        {proceses.map((proceso,index)=>{
+        {processes.map((proceso,index)=>{
           return(
             <li className="bg-white rounded-lg p-3 mb-2" key={index}>Name: {proceso.Name} / Ram Usage : {proceso.Ram_used} / Time Required : {proceso.Time_required} / Arrival Time : {proceso.Arrival_time}</li>
           )
@@ -133,7 +136,7 @@ function App() {
       <ul className="mb-3">
         {completed.map((proceso,index)=>{
           return(
-            <li className="bg-white rounded-lg p-3 mb-2" key={index}>Name: {proceso.Name} / Time Taken : {proceso.Time_taken} / Wait Time (idle) : {proceso.Wait_time} / Time Required: {proceso.Time_required} / Started Time : {proceso.Response_time}</li>
+            <li className="bg-white rounded-lg p-3 mb-2" key={index}>Name: {proceso.Name} / Time Taken : {proceso.Time_taken} / Wait Time (idle) : {proceso.Wait_time} / Time Required: {proceso.Time_required} / Response Time : {proceso.Response_time}</li>
           )
         })}
       </ul>
@@ -145,8 +148,7 @@ function App() {
           const start = procesoGant.start
           const end = procesoGant.end
           const porcentaje = ((end - start) / totalTime)*100
-          console.log(porcentaje,"%")
-          const indexColor = proceses.findIndex(objeto => objeto.Name === procesoGant.name) // compáro el name del obj de la lista de procceses, con el nombre del proceso que vamos a dibujar
+          const indexColor = processes.findIndex(objeto => objeto.Name === procesoGant.name) // compáro el name del obj de la lista de procceses, con el nombre del proceso que vamos a dibujar
           return(
             <div key={index} style={{ width: `${porcentaje}%`}} className={colors[indexColor]} >{procesoGant.name}: {start}ms-{end}ms</div>
           )
