@@ -28,7 +28,10 @@ function App() {
     Completed: false,
     Arrival_time : Number(arrivalTime),
     Time_taken: 0, // En completar proceso
-    Wait_time: 0 // Tiempo en espera idle 
+    Wait_time: 0, // Tiempo en espera idle 
+    Started : false,
+    TimeStarted : 0,
+    Response_time : 0
     }
     setProcesses([...proceses, process])
     setName("")
@@ -40,6 +43,8 @@ function App() {
   function handleQuantum(event){
     setQuantum(event.target.value)
   }
+
+
 
   function handleSimulation(){
     let arrayGraphic = []
@@ -60,7 +65,11 @@ function App() {
           start : currentTime,
           end : Number(currentTime) + Number(quantum)
         })
-
+        if(current.Started == false){
+          current.Started = true
+          current.TimeStarted = currentTime
+          current.Response_time = current.TimeStarted - current.Arrival_time
+        }
         current.Time_left = Number(current.Time_left) - Number(quantumEntered)
         currentTime = Number(currentTime) + quantumEntered
 
@@ -71,13 +80,18 @@ function App() {
           start : currentTime,
           end : Number(currentTime) + Number(current.Time_left)
         })
+        if(current.Started == false){
+        current.Started = true
+        current.TimeStarted = currentTime
+        current.Response_time = current.TimeStarted - current.Arrival_time
+        }
         currentTime = Number(currentTime) + Number(current.Time_left)// In case a remaining of 2 when quantum is 3 or more 
         current.Completed = true
         current.Time_taken = Number(currentTime) - Number(current.Arrival_time) // Tiempo que elapso desde el inicio hasta que se completo, - arrival por si llego luego 
         current.Wait_time = Number(current.Time_taken) - Number(current.Time_required) // Tiempo que estuvo idle
         queueCompleted.push(current)
       }
-
+      
     }
     const cpuUsage = (arrayGraphic.reduce((acumulado,bloque) => {
       return acumulado + (bloque.end-bloque.start) // Toma cada bloque del gant y suma los tiempos de uso
@@ -119,7 +133,7 @@ function App() {
       <ul className="mb-3">
         {completed.map((proceso,index)=>{
           return(
-            <li className="bg-white rounded-lg p-3 mb-2" key={index}>Name: {proceso.Name} / Time Taken : {proceso.Time_taken} / Wait Time (idle) : {proceso.Wait_time} / Time Required: {proceso.Time_required}</li>
+            <li className="bg-white rounded-lg p-3 mb-2" key={index}>Name: {proceso.Name} / Time Taken : {proceso.Time_taken} / Wait Time (idle) : {proceso.Wait_time} / Time Required: {proceso.Time_required} / Started Time : {proceso.Response_time}</li>
           )
         })}
       </ul>
