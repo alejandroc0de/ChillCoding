@@ -1,4 +1,4 @@
-import { use, useState } from "react"
+import { useState } from "react"
 import './index.css'
 
 function App() {
@@ -12,11 +12,16 @@ function App() {
   const[gant, setGant] = useState([])
   const[porcentajeUsage, setPorcentajeUsage] = useState(0)
 
+  // Functions react needs -------------------------------------------------------
   function handleName(event){setName(event.target.value)}
 
   function handleMs(event){setMs(event.target.value)}
 
   function handleArrivalTime(event){setArrivalTime(event.target.value)}
+
+  function handleQuantum(event){setQuantum(event.target.value)}
+
+  // Function to submit task -----------------------------------------------------
 
   function handleSubmit(){
 
@@ -33,24 +38,20 @@ function App() {
     TimeStarted : 0,
     Response_time : 0
     }
+
     setProcesses([...processes, process])
     setName("")
     setMs(0)
     // Here i save the process object to the array once submited
   }
 
-
-  function handleQuantum(event){
-    setQuantum(event.target.value)
-  }
-
-
-
   function handleSimulation(){
-    let arrayGraphic = []
+    let arrayGraphic = [] // Guarda el start time y end time para graficar el gant graphic
+
     if(quantum <= 0 ){ // Si no ingresa quantum time 
       return
     }
+    
     let currentTime = 0 // Trackea el tiempo que ha pasado 
     let queueCompleted = [] // La lista de los procesos completos
     const quantumEntered = Number(quantum)
@@ -71,6 +72,7 @@ function App() {
           current.TimeStarted = currentTime
           current.Response_time = current.TimeStarted - current.Arrival_time
         }
+
         current.Time_left = Number(current.Time_left) - Number(quantumEntered)
         currentTime = Number(currentTime) + quantumEntered
 
@@ -91,10 +93,11 @@ function App() {
         currentTime = Number(currentTime) + Number(current.Time_left)
         current.Completed = true
         current.Time_taken = Number(currentTime) - Number(current.Arrival_time) // Tiempo que elapso desde el inicio hasta que se completo, - arrival por si llego luego 
-        current.Wait_time = Number(current.Time_taken) - Number(current.Time_required) // Tiempo que estuvo idle
+        current.Wait_time = Number(current.Time_taken) - Number(current.Time_required) // Tiempo que estuvo idle, se calcula cuando termina el proceso 
         queueCompleted.push(current)
       }
     }
+
     // Uso de la cpu, tomando el array para el grafico
     const cpuUsage = (arrayGraphic.reduce((acumulado,bloque) => {
       return acumulado + (bloque.end-bloque.start) // Toma cada bloque del gant y suma los tiempos de uso
@@ -106,6 +109,7 @@ function App() {
     setCompleted(queueCompleted)
     setQuantum(0) // Evita doble toque al submit
   }
+
   const totalTime = gant.length > 0 ? gant[gant.length-1].end : 0 // SI hay gant data take it, otherwise 0 
   const colors = ["bg-amber-500", "bg-blue-500", "bg-green-500", "bg-red-500", "bg-purple-500"]
 
