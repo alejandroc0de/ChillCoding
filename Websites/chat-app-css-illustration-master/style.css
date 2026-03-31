@@ -2,8 +2,19 @@ body{
     height: 100vh;
     margin: 0;
     padding: 0;
-    background-color: rgb(222, 167, 236);
+    background-color: rgb(255, 255, 255);
 }
+
+#purple{
+    background-color: rgb(202, 89, 246);
+    position: fixed;
+    height: 120%;
+    width: 40%;
+    border-radius: 100%;
+    top: -400px;
+    left: -100px;
+}
+
 
 #main-div{
     display: flex;
@@ -13,33 +24,77 @@ body{
 }
 
 #phone-box{
+    box-shadow: 2px 2px 2px 5px rgba(128, 128, 128, 0.615);
     background-color: white;
     padding: 5px;
     border-radius: 20px;
-    height: 50%;
-    width: 20%;
+    min-height: 55%;
+    max-width: 17%;
+    min-width: 17%;
     display: flex;
     justify-content: center;
     position: relative;
+    margin: auto;
 }
 
 #notch{
     background-color: white;
     position: absolute;
-    border-radius: 10px;
+    border-radius: 0px 0px 10px 10px;
     width: 45%;
-    height: 5%;
-    top: -1px;
+    height: 4%;
+    top: 0px;
 }
+
+#header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 100%;
+    margin-top: 5px;
+}
+
+#image-avatar{
+    margin-left: 5%;
+    width: 40px;
+    border-radius: 20px;
+    border: 1px solid white;
+}
+
+#go-back{
+    font-size: medium;
+    font-weight:bolder;
+    color: white;
+}
+#avatar-text{
+    font-size: small;
+    margin: 0px;
+    padding: 0px;
+    gap: 0px;
+    height: 80%;
+    line-height: 0.5;
+    margin-left: 9px;
+    width: 90%;
+
+}
+
+#more-info{
+    display: flex;
+    flex-direction: row;
+    align-items: end;
+}
+
+
 
 #screen-layout{
     border-radius: 20px;
     width: 95%;
     height: 99%;
+    display: flex;
+    flex-direction: column;
 }
 
 #top-header{
-    border: 1px solid black;
     border-radius: 20px;
     padding: 3px;
     background-color: rgb(215, 56, 255);
@@ -47,19 +102,125 @@ body{
 }
 
 #chat-box{
-    border: 1px solid black;
+    border: 1px solid rgba(128, 128, 128, 0.565);
     border-radius: 10px;
     margin-top: 1px;
     padding: 3px;
-    height: 86%;
+    flex-grow: 1;
     background-color: rgba(200, 200, 200, 0.6);
-    display: flex;
 }
 
+#div-message{
+    margin-top: 8%;
+}
 #send-message{
     padding: 3px;
-    border: 1px solid black;
     background-color: white;
-    align-items: end;
-    justify-content: space-between;
+    height: 5%;
+    border-radius: 20px;
+    margin-top: 1%;
+    display: flex;
+    flex-direction: row;
+}
+
+#input-message{
+    border-radius: 20px;
+    border: none;
+    background-color: white;
+    font-size: large;
+    width: 90%;
+}   
+
+#send-button{
+    background-color: black;
+    color: white;
+    border-radius: 100%;
+    border: none;
+    margin: 3%;
+    font-size: large;
+}
+
+.sent{
+    font-size: smaller;
+    margin-left: auto;
+    text-align: right;
+    background-color: rgba(255, 255, 255, 0.835);
+    max-width: 60%;
+    border-radius: 10px;
+    padding-right: 10px;
+    width: fit-content;
+    padding-left: 1%;
+}
+
+.received{
+    font-size: smaller;
+    margin-right: auto;
+    text-align: left;
+    background-color: cadetblue;
+    max-width:60%;
+    width: fit-content;
+    border-radius: 10px;
+    margin: 2px;
+    padding-left: 10px;
+}
+
+#go-back{
+    margin-left: 3%;
+}
+
+#photos-dog{
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+}
+
+#photos-dog img{
+    height: 50%;
+    width: 50%;
+    margin: 1px;
+    border-radius: 20px;
+    background-color: rgba(240, 248, 255, 0);
+}
+#avatar-text{
+    color: white;
+    font-size: small;
+    font-weight: bolder;
+}
+#radio-buttons{
+    display: flex;
+    flex-direction:column;
+}
+#but1{
+    background-color: rgb(211, 72, 230);
+    padding: 5px;
+}
+
+#more-info-p{
+    font-size: larger;
+    font-weight: bolder;
+    color: whitesmoke;
+}
+
+
+#input-message{
+    padding: 3%;
+}
+
+
+
+
+
+#right-div{
+    background-color: rgba(0, 255, 255, 0);
+    height: 30%;
+    width: 30%;
+    margin-right: 15%;
+}
+
+#right-div p{
+    font-size: large;
+}
+#right-div h1{
+    font-size: 3rem;
+    font-weight: bolder;
 }
