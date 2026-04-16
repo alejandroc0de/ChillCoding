@@ -94,6 +94,22 @@ p {
 #results.show{
     display: flex;
 }
+
+@media (max-width: 768px) {
+
+    #div-top{
+        height: 250px;
+    }
+
+
+    #results {
+        flex-direction: column;
+        height: auto;
+        gap: 1px;
+        padding: 1px;
+    }
+}
+
 #mapa-div{
     margin: 0px;
     gap: 0px;
