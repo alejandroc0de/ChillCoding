@@ -1,13 +1,100 @@
-#body{
+body{
     gap: 0px;
     margin: 0px;
+    padding: 0px;
 }
 
-#map { height: 400px;}
+#map { height: 60vh;}
 #map { width: 100%;}
 
+p {
+    margin: 0;
+}
+
+#ip-address{
+    padding: 1%;
+    font-size: large;
+    border-radius: 10px;
+    border: none;
+    width: 40%;
+}
+
+.hidden{
+    display: none;
+}
+#ip-address{
+    margin: 0px;
+    gap: 0px;
+}
+
+#submitButton{
+    background-color: black;
+    border: none;
+    border-radius: 10px;
+    padding: 15px;
+}
+
 #div-top{
-    background-color: aqua;
+    padding: 10px;
+    margin: 0px;
+    gap: 0px;
+    background-image: url('./images/pattern-bg-desktop.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: white;
+    font-size: larger;
+    text-align: center;
+    height: 250px;
+}
+
+#timezone{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+#ip{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+#location{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+#isp{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+.label{
+    color: gray;
+    padding: 5px;
+}
+.value{
+    font-weight: bolder;
+    font-size: larger;
+}
+
+#results{
+    margin: 0px;
+    background-color: white;
+    align-items: center;
+    flex-direction: row;
+    position: absolute;
+    z-index: 1000;
+    height: 17%;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 200px;
+    width: 70%;
+    border-radius: 10px;
+    text-align: center;
+}
+#results.show{
+    display: flex;
+}
+#mapa-div{
     margin: 0px;
     gap: 0px;
 }
