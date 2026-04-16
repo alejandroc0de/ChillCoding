@@ -1,1 +1,13 @@
-#map { height: 180px; }
+#body{
+    gap: 0px;
+    margin: 0px;
+}
+
+#map { height: 400px;}
+#map { width: 100%;}
+
+#div-top{
+    background-color: aqua;
+    margin: 0px;
+    gap: 0px;
+}
