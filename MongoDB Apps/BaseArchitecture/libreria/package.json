@@ -1,0 +1,18 @@
+{
+  "name": "libreria",
+  "version": "1.0.0",
+  "description": "Api Mongo node",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "keywords": [],
+  "author": "Alejandro",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "mongodb": "^7.2.0"
+  }
+}
