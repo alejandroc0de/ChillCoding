@@ -1,9 +1,7 @@
-
 #headerDiv{
     background-color: rgb(228, 243, 255);    
     margin: 0;
 }
-
 #mainDiv{
     display: flex;
     flex-direction: column;
@@ -16,26 +14,21 @@
     align-items: center;
     justify-content: center;
 }
-
-
 #actionsDiv button{
     text-align: center;
     border: none;
     margin: 10px;
     background-color: aliceblue;
 }
-
 #thinkButton{
     font-size: x-large;
     height: 250px;
     width: 250px;
     border-radius: 100%;
 }
-
 input{
     font-size: larger;
 }
-
 #actionsDiv button:hover{
     transform: scale(1.1);
     transition-duration: 100ms;
@@ -46,13 +39,11 @@ input{
     margin-top: 8vh;
     margin-bottom: 10px;
 }
-
 #chatHistory{
     flex-grow: 1;
     border-radius: 50px;
     background-color: rgba(228, 228, 228, 0.464);
 }
-
 #footerDiv{
     font-size: small;
 }
